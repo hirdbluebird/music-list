@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "start-w": "webpack-dev-server",
     "test": "jest",
     "lint": "eslint .",
     "build-dev": "webpack --config webpack.config.js --progress --profile --colors"
@@ -40,6 +41,8 @@
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.12.3",
     "jest": "^23.6.0",
-    "supertest": "^3.3.0"
+    "react-hot-loader": "^4.5.3",
+    "supertest": "^3.3.0",
+    "webpack-dev-server": "2.4.5"
   }
 }
