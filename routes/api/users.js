@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 
 const User = require('../../modules/user');
@@ -6,10 +7,10 @@ const User = require('../../modules/user');
 router.get('/list', (req, res, next) => {
   User.find((err, users) => {
     if (err) {
-      res.send(err);
+      return res.send(err);
     }
-    res.json(users);
-  })
+    return res.json(users);
+  });
 });
 
 module.exports = router;
