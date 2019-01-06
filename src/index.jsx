@@ -7,7 +7,7 @@ import Template from './components/Template';
 const renderApp = (Component) => {
   render(
     <AppContainer>
-      <Component headline="Test Headline" count={5678} showCount />
+      <Component headline="Test Headline" />
     </AppContainer>,
     document.querySelector('#react-app'),
   );
