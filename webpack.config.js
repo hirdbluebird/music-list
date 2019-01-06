@@ -15,7 +15,7 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        exclude: /(nodemodules|bower_components|public\/)/,
+        exclude: /(node_modules|bower_components|public\/)/,
         loader: 'babel-loader',
       },
     ],
