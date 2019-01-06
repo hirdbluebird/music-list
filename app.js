@@ -6,6 +6,12 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const expressSession = require('express-session')({
+  secret: 'random strings here are good',
+  resave: false,
+  saveUninitialized: false,
+});
+const User = require('./modules/user');
 
 const index = require('./routes/index');
 const api = require('./routes/api/index');
@@ -24,11 +30,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(require('express-session')({
-  secret: 'random strings here are good',
-  resave: false,
-  saveUninitialized: false
-}));
+app.use(expressSession);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
@@ -36,7 +38,6 @@ app.use('/api', api);
 app.use('/api/users', users);
 
 // Configure Passport
-const User = require('./modules/user');
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
