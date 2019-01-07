@@ -11,6 +11,11 @@ const expressSession = require('express-session')({
   resave: false,
   saveUninitialized: false,
 });
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const webpackConfig = require('./webpack.config');
+
 const User = require('./modules/user');
 
 const index = require('./routes/index');
@@ -32,6 +37,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(expressSession);
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Webpack Compiler
+const webpackCompiler = webpack(webpackConfig);
+app.use(webpackDevMiddleware(webpackCompiler, {
+  publicPath: webpackConfig.output.publicPath,
+  stats: {
+    colors: true,
+    chunks: true,
+    'errors-only': true,
+  },
+}));
+app.use(webpackHotMiddleware(webpackCompiler, {
+  log: console.log,
+}));
 
 app.use('/api', api);
 app.use('/api/users', users);
