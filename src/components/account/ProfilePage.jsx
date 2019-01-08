@@ -6,7 +6,7 @@ export default function HomePage(props) {
   const { match } = props;
   return (
     <div className="row">
-      <div className="col-sm-12 col-lg-8">
+      <div className="col-sm-12 col-md-8">
         {`This is profile page. The profile ID is: ${match.params.id}`}
       </div>
       <Sidebar />
