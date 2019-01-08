@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const User = require('../../modules/user');
+const User = require('../../models/user');
 
 router.get('/list', (req, res, next) => {
   User.find((err, users) => {

@@ -11,11 +11,17 @@ const expressSession = require('express-session')({
   resave: false,
   saveUninitialized: false,
 });
-const User = require('./modules/user');
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const webpackConfig = require('./webpack.config');
+
+const User = require('./models/user');
 
 const index = require('./routes/index');
 const api = require('./routes/api/index');
 const users = require('./routes/api/users');
+const authentication = require('./routes/api/authentication');
 
 const app = express();
 
@@ -33,9 +39,24 @@ app.use(cookieParser());
 app.use(expressSession);
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+// Webpack Compiler
+const webpackCompiler = webpack(webpackConfig);
+app.use(webpackDevMiddleware(webpackCompiler, {
+  publicPath: webpackConfig.output.publicPath,
+  stats: {
+    colors: true,
+    chunks: true,
+    'errors-only': true,
+  },
+}));
+app.use(webpackHotMiddleware(webpackCompiler, {
+  log: console.log,
+}));
+
 app.use('/api', api);
 app.use('/api/users', users);
+app.use('/api/authentication', authentication);
+app.use('/*', index);
 
 // Configure Passport
 passport.use(new LocalStrategy(User.authenticate()));
